@@ -6,6 +6,10 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:frontend_mobile/features/home/bloc/home_bloc.dart';
 import 'package:frontend_mobile/features/home/bloc/home_event.dart';
 import 'package:frontend_mobile/features/home/bloc/home_state.dart';
+import 'package:frontend_mobile/features/login/bloc/login_bloc.dart';
+import 'package:frontend_mobile/features/login/bloc/login_event.dart';
+import 'package:frontend_mobile/features/login/bloc/login_state.dart';
+import 'package:frontend_mobile/features/login/presenter/pages/login_page.dart';
 import 'package:frontend_mobile/services/category/category_service.dart';
 import 'package:frontend_mobile/services/product/product_service.dart';
 
@@ -18,11 +22,18 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  bool isLoggedIn = false;
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       BlocProvider.of<HomeBloc>(context).add(GetAllProducts());
+      BlocProvider.of<LoginBloc>(context).stream.listen((state) {
+        setState(() {
+          isLoggedIn = (state.token ?? '').isNotEmpty;
+        });
+      });
     });
   }
 
@@ -108,11 +119,16 @@ class _HomePageState extends State<HomePage> {
         centerTitle: true,
         actions: [
           IconButton(
-            icon: const Icon(Icons.login),
+            icon:
+                isLoggedIn ? const Icon(Icons.login) : const Icon(Icons.logout),
             onPressed: () {
-              // TODO: go to login page
+              if (!isLoggedIn) {
+                Navigator.of(context).pushNamed(LoginPage.path);
+              } else {
+                BlocProvider.of<LoginBloc>(context).add(LoginClean());
+              }
             },
-          ),
+          )
         ],
       ),
       body: BlocBuilder<HomeBloc, HomeState>(
