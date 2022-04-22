@@ -1,14 +1,14 @@
 part of './product_service.dart';
 
 class Product {
-  int? id;
+  int id;
   String name;
   String? description;
   int price;
   List<Category>? categories;
 
   Product({
-    this.id,
+    required this.id,
     required this.name,
     this.description,
     required this.price,

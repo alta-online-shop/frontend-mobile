@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:frontend_mobile/config.dart';
 import 'package:frontend_mobile/drivers/api.dart';
+import 'package:frontend_mobile/features/cart/bloc/cart_bloc.dart';
 import 'package:frontend_mobile/features/home/bloc/home_bloc.dart';
 import 'package:frontend_mobile/features/home/presenter/pages/home_page.dart';
 import 'package:frontend_mobile/features/login/bloc/login_bloc.dart';
@@ -22,6 +23,7 @@ void main() {
       BlocProvider(create: (c) => HomeBloc()),
       BlocProvider(create: (c) => LoginBloc()),
       BlocProvider(create: (c) => RegisterBloc()),
+      BlocProvider(create: (c) => CartBloc()),
     ],
     child: const MyApp(),
   ));

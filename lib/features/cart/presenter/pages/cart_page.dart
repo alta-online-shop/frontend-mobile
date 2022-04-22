@@ -3,9 +3,6 @@ import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:frontend_mobile/features/cart/bloc/cart_bloc.dart';
-import 'package:frontend_mobile/features/cart/bloc/cart_event.dart';
-import 'package:frontend_mobile/features/cart/bloc/cart_state.dart';
 import 'package:frontend_mobile/features/home/bloc/home_bloc.dart';
 import 'package:frontend_mobile/features/home/bloc/home_event.dart';
 import 'package:frontend_mobile/features/home/bloc/home_state.dart';
@@ -13,7 +10,6 @@ import 'package:frontend_mobile/features/login/bloc/login_bloc.dart';
 import 'package:frontend_mobile/features/login/bloc/login_event.dart';
 import 'package:frontend_mobile/features/login/bloc/login_state.dart';
 import 'package:frontend_mobile/features/login/presenter/pages/login_page.dart';
-import 'package:frontend_mobile/services/cart/cart_service.dart';
 import 'package:frontend_mobile/services/category/category_service.dart';
 import 'package:frontend_mobile/services/product/product_service.dart';
 
@@ -104,11 +100,7 @@ class _HomePageState extends State<HomePage> {
                   height: 30,
                   child: OutlinedButton(
                     child: const Text('Beli'),
-                    onPressed: () {
-                      BlocProvider.of<CartBloc>(context, listen: false).add(
-                        AddIntoCart(product: product),
-                      );
-                    },
+                    onPressed: () {},
                   ),
                 ),
               ],
@@ -161,21 +153,14 @@ class _HomePageState extends State<HomePage> {
           );
         },
       ),
-      floatingActionButton: BlocBuilder<CartBloc, CartState>(
-        builder: (context, state) {
-          return FloatingActionButton(
-            child: Badge(
-              child: const Icon(Icons.shopping_cart_outlined),
-              badgeContent: Text('${state.carts.length}'),
-              badgeColor: Colors.white,
-            ),
-            onPressed: () {
-              print('CART');
-              state.carts.forEach((element) {
-                print(element.toJson());
-              });
-            },
-          );
+      floatingActionButton: FloatingActionButton(
+        child: Badge(
+          child: const Icon(Icons.shopping_cart_outlined),
+          badgeContent: const Text('0'),
+          badgeColor: Colors.white,
+        ),
+        onPressed: () {
+          // TODO: go to cart page
         },
       ),
     );
