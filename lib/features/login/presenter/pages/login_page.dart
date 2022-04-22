@@ -4,6 +4,7 @@ import 'package:frontend_mobile/features/home/bloc/home_bloc.dart';
 import 'package:frontend_mobile/features/home/bloc/home_state.dart';
 import 'package:frontend_mobile/features/login/bloc/login_bloc.dart';
 import 'package:frontend_mobile/features/login/bloc/login_event.dart';
+import 'package:frontend_mobile/features/register/presenter/pages/register_page.dart';
 import 'package:frontend_mobile/services/auth/auth_service.dart';
 
 class LoginPage extends StatefulWidget {
@@ -23,17 +24,16 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-    emailController.text = 'alex@email.com';
-    passwordController.text = '123123123';
-
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       BlocProvider.of<LoginBloc>(context).stream.listen((state) {
         if (state.error == null || state.error!.isEmpty) {
           Navigator.of(context).pop();
         } else {
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text('error'),
-          ));
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Email atau password tidak valid.'),
+            ),
+          );
         }
       });
     });
@@ -61,6 +61,7 @@ class _LoginPageState extends State<LoginPage> {
                         decoration: const InputDecoration(
                           label: Text('Email'),
                         ),
+                        keyboardType: TextInputType.emailAddress,
                         validator: (val) {
                           if (val!.isEmpty) return 'email can not empty';
                           return null;
@@ -90,6 +91,22 @@ class _LoginPageState extends State<LoginPage> {
                           }
                         },
                       ),
+                      Container(
+                        margin: const EdgeInsets.only(top: 30),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text('Belum punya akun?'),
+                            TextButton(
+                              child: const Text('Register'),
+                              onPressed: () {
+                                Navigator.of(context)
+                                    .popAndPushNamed(RegisterPage.path);
+                              },
+                            ),
+                          ],
+                        ),
+                      )
                     ],
                   ),
                 );

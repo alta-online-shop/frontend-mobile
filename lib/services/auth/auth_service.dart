@@ -10,4 +10,11 @@ class AuthService {
     final data = response.data['data'];
     return data?.toString();
   }
+
+  static Future<String?> register(Register input) async {
+    final api = GetIt.I.get<Dio>();
+    final response = await api.post('/auth/register', data: input.toJson());
+    final data = response.data['data'];
+    return data?.toString();
+  }
 }

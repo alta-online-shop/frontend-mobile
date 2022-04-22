@@ -119,8 +119,9 @@ class _HomePageState extends State<HomePage> {
         centerTitle: true,
         actions: [
           IconButton(
-            icon:
-                isLoggedIn ? const Icon(Icons.login) : const Icon(Icons.logout),
+            icon: !isLoggedIn
+                ? const Icon(Icons.login)
+                : const Icon(Icons.logout),
             onPressed: () {
               if (!isLoggedIn) {
                 Navigator.of(context).pushNamed(LoginPage.path);

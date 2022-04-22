@@ -25,3 +25,31 @@ class Login {
     return data;
   }
 }
+
+class Register {
+  final String fullname;
+  final String email;
+  final String password;
+
+  Register({
+    required this.fullname,
+    required this.email,
+    required this.password,
+  });
+
+  factory Register.fromJson(Map<String, dynamic> json) {
+    return Register(
+      fullname: json["fullname"] ?? '',
+      email: json["email"] ?? '',
+      password: json["password"] ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = {};
+    data["fullname"] = fullname;
+    data["email"] = email;
+    data["password"] = password;
+    return data;
+  }
+}
